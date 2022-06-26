@@ -1,16 +1,33 @@
+// Online C++ compiler to run C++ program online
 #include <iostream>
 using namespace std;
 
 struct Node {
     int data;
     struct Node *right,*left;
-    Node(int data)
-    {
-        this->data=data;
-        left=right=NULL;
-    }
 };
 
+struct Node* newNode(int key)
+{
+    struct Node* temp=(struct Node*)malloc(sizeof(struct Node));
+    temp->data=key;
+    temp->right=temp->left=NULL;
+    return temp;
+}
+struct Node* insert(struct Node* node,int key)
+{
+    if(node==NULL)
+        return newNode(key);
+    if(key < node->data)
+    {
+        node->left=insert(node->left,key);
+    }
+    else
+    {
+        node->right=insert(node->right,key);
+    }
+    return node;
+}
 struct Node* inorder(struct Node* node)
 {
     if(node==NULL)
@@ -19,7 +36,6 @@ struct Node* inorder(struct Node* node)
     cout<<node->data<<" ";
     inorder(node->right);
 }
-
 struct Node* preorder(struct Node* node)
 {
     if(node==NULL)
@@ -39,14 +55,14 @@ struct Node* postorder(struct Node* node)
     postorder(node->right);
     cout<<node->data<<" ";
 }
-
 int main()
 {
-    struct Node* root=new Node(1);
-    root->left=new Node(12);
-    root->right=new Node(3);
-    root->left->left=new Node(5);
-    root->left->right=new Node(6);
+    struct Node* root=NULL;
+    root=insert(root,1);
+    root=insert(root,3);
+    root=insert(root, 12);
+    root=insert(root,5);
+    root=insert(root, 6);
     cout<<" Inorder : "<<" ";
     inorder(root);
     cout<<" \nPostorder : "<<" ";
